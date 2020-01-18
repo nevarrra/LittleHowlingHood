@@ -12,7 +12,6 @@ require "traps"
   end
   
   function LoadPlayer()
-   imagecharacter1 = love.graphics.newImage("Images/char.png")
    imagecharacter2 = love.graphics.newImage("Images/char2.png")
    
     player = {position = vector2.new (700, 300), 
@@ -41,6 +40,7 @@ require "traps"
               walkingRight = {},
               animationTimer = 0,
               animationFrame = 1}
+    
     for i = 1, 17, 1 do
       player.walkingRight[i] = love.graphics.newImage("Images/MovRight/" .. i .. ".png")
     end
@@ -48,12 +48,6 @@ require "traps"
   end
  
   function UpdatePlayer (dt, world, airenemies, lenemies, traps, mtraps, boss)
-    
-    
-    -- if the player falls below this y position then it sets the health to 0
-    if player.position.y > 1000 then
-      player.health = 0
-    end
     
     if player.health > 0 then
       local acceleration = vector2.new (0,0)
@@ -109,12 +103,19 @@ require "traps"
         player.direction.x = 1
         player.direction.y = 0
         player.animationTimer = player.animationTimer + dt
+        
         if player.animationTimer > 0.1 then
-        player.animationFrame = player.animationFrame + 1
-        player.animationTimer =  0
+          player.animationFrame = player.animationFrame + 1
+          player.animationTimer =  0
+          
           if player.animationFrame >= 17 then
             player.animationFrame = 1
           end
+        end
+        
+        if player.velocity.x == 0 then
+          
+          
         end
         
         if player.velocity.x > 250 then
@@ -153,7 +154,7 @@ require "traps"
       
       if love.keyboard.isDown ("space") and player.onGround then
         
-        player.velocity.y = -600
+        player.velocity.y = -800
         player.onGround = false
         movementdirection.y = 1
         
@@ -452,7 +453,7 @@ require "traps"
         
         love.graphics.setColor(0.1, 0, 0)
         
-       love.graphics.draw(imagecharacter1, player.position.x, player.position.y, 0, 0.5, 0.5)
+       love.graphics.draw(imagecharacter2, player.position.x, player.position.y, 0, 0.5, 0.5)
        
       end
       
@@ -477,7 +478,7 @@ require "traps"
     
     for i = 1 , #lenemies, 1 do
       
-      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 55), player.position.y + (player.direction.y * 55), player.size.x, player.size.y, lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height)
+      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 150), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height)
       
       if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
         
@@ -493,7 +494,7 @@ require "traps"
     
     for i = 1 , #airenemies, 1 do
       
-      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 50), player.position.y + (player.direction.y * 50), player.size.x, player.size.y, airenemies[i].pos.x, airenemies[i].pos.y, airenemies[i].width, airenemies[i].height)
+      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 150), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, airenemies[i].pos.x, airenemies[i].pos.y, airenemies[i].width, airenemies[i].height)
       
       if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
         
@@ -504,7 +505,7 @@ require "traps"
     end
     
     if (boss.invulnerable <= 0) then
-      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 50), player.position.y + (player.direction.y * 50), player.size.x, player.size.y, boss.position.x, boss.position.y, boss.sizeX, boss.sizeY)
+      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 150), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, boss.position.x, boss.position.y, boss.sizeX, boss.sizeY)
       
       if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
         if boss.invulnerable <= 0 then
