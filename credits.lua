@@ -3,6 +3,16 @@
  local backgroundcredits = love.graphics.newImage ("Images/menu.jpg")
  local credits = love.graphics.newImage ("Images/credits.png")
  
+ 
+  function UpdateCredits()
+    
+    if love.keyboard.isDown ("escape") then
+      
+      gamestate = "title"
+      
+    end
+    
+  end
   
   function DrawCredits()
     
