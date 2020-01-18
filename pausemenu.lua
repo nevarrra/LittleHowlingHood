@@ -26,13 +26,13 @@ local titleimg = love.graphics.newImage ("Images/titleb.png")
       
       love.graphics.setColor (1,1,1)
       
-      love.graphics.draw (playimg, 800, 0)
+      love.graphics.draw (playimg, 800, 400)
       
       love.graphics.setColor (0,1,0)
-      love.graphics.rectangle ("line", 790, 5, 275, 130)
+      love.graphics.rectangle ("line", 790, 405, 275, 130)
       
       love.graphics.setColor (1,1,1)
-      love.graphics.draw (titleimg, 800, 200)
+      love.graphics.draw (titleimg, 800, 600)
       
     end 
     
@@ -40,13 +40,13 @@ local titleimg = love.graphics.newImage ("Images/titleb.png")
       
       love.graphics.setColor (1,1,1)
       
-      love.graphics.draw (playimg, 800, 0)
+      love.graphics.draw (playimg, 800, 400)
       
       
       love.graphics.setColor (1,1,1)
-      love.graphics.draw (titleimg, 800, 200)
+      love.graphics.draw (titleimg, 800, 600)
       love.graphics.setColor (0,1,0)
-      love.graphics.rectangle ("line", 790, 205, 275, 130)
+      love.graphics.rectangle ("line", 790, 605, 275, 130)
       
     end
     
