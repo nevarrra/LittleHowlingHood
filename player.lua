@@ -37,7 +37,13 @@ require "traps"
               gravity = vector2.new (0,600),
               goalcount = 0,
               isAttacking = false,
-              isAttackingTimer = 0}
+              isAttackingTimer = 0,
+              walkingRight = {},
+              animationTimer = 0,
+              animationFrame = 1}
+    for i = 1, 17, 1 do
+      player.walkingRight[i] = love.graphics.newImage("Images/MovRight/" .. i .. ".png")
+    end
    
   end
  
@@ -102,6 +108,14 @@ require "traps"
         movementdirection.x = 1
         player.direction.x = 1
         player.direction.y = 0
+        player.animationTimer = player.animationTimer + dt
+        if player.animationTimer > 0.1 then
+        player.animationFrame = player.animationFrame + 1
+        player.animationTimer =  0
+          if player.animationFrame >= 17 then
+            player.animationFrame = 1
+          end
+        end
         
         if player.velocity.x > 250 then
           
@@ -418,7 +432,7 @@ require "traps"
       
       if player.direction.x == 1 then
         
-       love.graphics.draw(imagecharacter1, player.position.x, player.position.y, 0, 0.5, 0.5)
+       love.graphics.draw(player.walkingRight[player.animationFrame], player.position.x, player.position.y, 0, 0.5, 0.5)
        
       end
       
