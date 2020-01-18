@@ -21,6 +21,12 @@ local backgroundmenu = love.graphics.newImage ("Images/menu.jpg")
       
     end
     
+    if selectedbutton == 2 and love.keyboard.isDown ("space") then
+      
+      gamestate = "credits"
+      
+    end
+    
     if selectedbutton == 3 and love.keyboard.isDown ("space") then
       
       love.event.quit("exit")
