@@ -8,8 +8,10 @@ local exitimg = love.graphics.newImage ("Images/exitb.png")
 local menumusic = love.audio.newSource ("Music/menu.wav", "stream")
 local backgroundmenu = love.graphics.newImage ("Images/menu.jpg")
   
+  
   function UpdateMainMenu()
     
+    menumusic:setLooping(true)
     love.audio.play (menumusic)
     
     if selectedbutton == 1 and love.keyboard.isDown ("space") then
