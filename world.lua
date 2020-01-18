@@ -12,12 +12,13 @@ require "vector2"
     
     for i = 1, #world, 1 do
       if world[i].tipo == 1 then      
-      love.graphics.setColor (1,1,0.1, 0)
-      love.graphics.rectangle("fill", world[i].position.x, world[i].position.y, world[i].size.x, world[i].size.y)
+      love.graphics.setColor (1,1,1)
+      love.graphics.rectangle("line", world[i].position.x, world[i].position.y, world[i].size.x, world[i].size.y)
+      love.graphics.draw(path, world[i].position.x - 70, world[i].position.y - 70, 0)
       elseif world[i].tipo == 2 then
       love.graphics.setColor(1, 1, 1)
       love.graphics.rectangle("line", world[i].position.x, world[i].position.y, world[i].size.x, world[i].size.y)
-      love.graphics.draw(platform, world[i].position.x - 70, world[i].position.y - 130, 0, 0.6, 0.6)
+      love.graphics.draw(platform, world[i].position.x - 70, world[i].position.y - 70, 0, 0.6, 0.6)
       elseif world[i].tipo == 3 then
       love.graphics.rectangle("line", world[i].position.x, world[i].position.y, world[i].size.x, world[i].size.y)
       love.graphics.draw(wall, world[i].position.x - 170, world[i].position.y - 170)
@@ -37,7 +38,7 @@ require "vector2"
     platform = love.graphics.newImage("Images/platform.png")
     wall = love.graphics.newImage("Images/climbingtree.png")
     platfleg = love.graphics.newImage("Images/platformleg.png")
-   
+    path = love.graphics.newImage("Images/path.png")
   end
 
   function DrawBackground(player)
