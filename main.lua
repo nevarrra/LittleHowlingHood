@@ -30,7 +30,6 @@ selectedbutton = 1
 
 local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
 
-
   function love.keypressed (key)
     
     if gamestate == "title" then
@@ -87,7 +86,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     
     love.window.setFullscreen(true, "desktop")
     
-    Text = love.graphics.newFont(30)
+    Text = love.graphics.newFont(50)
     
     background = love.graphics.newImage("Images/background.jpg")
     
@@ -105,24 +104,55 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     level1[1] = CreateObject(0, 900, 900, 50, 1)
     level1[2] = CreateObject(895, 900, 900, 50, 1)
     level1[3] = CreateObject(1790, 900, 900, 50, 1)
+    level1[4] = CreateObject(2800, 600, 200, 50, 2)
+    level1[5] = CreateObject(3000, 600, 200, 50, 2)
+    level1[6] = CreateObject(3200, 600, 200, 50, 2)
+    level1[7] = CreateObject(3700, 900, 900, 50, 1)
+    level1[8] = CreateObject(3595, 900, 900, 50, 1)
+    level1[9] = CreateObject(4450, -200, 130, 3000, 3)
+    --path above
     
+    level1[10] = CreateObject(5000, -200, 200, 50, 2)
+    level1[11] = CreateObject(5200, -200, 200, 50, 2)
+    level1[12] = CreateObject(5400, -200, 200, 50, 2)
+    level1[13] = CreateObject(6000, -500, 200, 50, 2)
+    level1[14] = CreateObject(6200, -500, 200, 50, 2)
+    level1[15] = CreateObject(7000, -500, 200, 50, 2)
+    level1[16] = CreateObject(7200, -500, 200, 50, 2)
+    level1[17] = CreateObject(7400, -500, 200, 50, 2)
+    level1[18] = CreateObject(7600, -500, 200, 50, 2)
+    level1[19] = CreateObject(8000, -800, 200, 50, 2)
+    level1[20] = CreateObject(8600, -800, 200, 50, 2)
+    level1[21] = CreateObject(8800, -800, 200, 50, 2)
+    level1[22] = CreateObject(9000, -800, 200, 50, 2)
+    level1[23] = CreateObject(9200, -800, 200, 50, 2)
+    level1[24] = CreateObject(9800, -400, 200, 50, 2)
+    level1[25] = CreateObject(10000, -400, 200, 50, 2)
+    level1[26] = CreateObject(9400, -100, 200, 50, 2)
+    level1[27] = CreateObject(9000, 100, 200, 50, 2)
+    level1[28] = CreateObject(8600, 400, 200, 50, 2)
+    level1[29] = CreateObject(8000, 400, 200, 50, 2)
+    level1[30] = CreateObject(7200, 400, 200, 50, 2)
+    level1[31] = CreateObject(6800, 700, 200, 50, 2)
+    level1[32] = CreateObject(1000,700, 200, 50, 1)
+   
     
     --loads traps
     LoadTraps()
     --traps[1] = CreateTraps (3190,800, (trapsimg:getWidth() / 2) - 15, (trapsimg:getHeight() / 2))
     
-    mtraps[1] = CreateMovingTraps (4000, 100, 100, 10)
-    mtraps[1] = CreateMovingTraps (2350, -1250, 100, 10)
+    --mtraps[1] = CreateMovingTraps (4000, 100, 100, 10)
+    --mtraps[2] = CreateMovingTraps (2350, -1250, 100, 10)
     
     
-    lenemies[1] = CreateLEnemy(4250, -50, 256, 162)
+    --lenemies[1] = CreateLEnemy(4250, -50, 256, 162)
     
     airenemies[1] = CreateAirEnemy(800, 25, 40, 40)
     
     collectible[1] = CreateCollectible(2000, 250, 10, 1)
     collectible[2] = CreateCollectible(1650, -290, 10, 1)
     
-    goal[1] = CreateGoal (2650, 100, 10, 1)
+    goal[1] = CreateGoal (8950, -1000, 10, 1)
     goal[2] = CreateGoal (2355, -1570, 10, 1)
     goal[3] = CreateGoal (6400, -2100, 10, 1)
     
@@ -232,15 +262,23 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
   end
   
  function DrawGame ()
+   
    love.graphics.push()
-   if GetPlayer().position.x > 399 then
-        love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 600))
+   
+      if GetPlayer().position.x > 399 then
         
-      else 
+        love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 400))
         
-        love.graphics.translate(0, -(GetPlayer().position.y - 600))
+      elseif GetPlayer().position.x < 399 then
+        
+        love.graphics.translate(0, -(GetPlayer().position.y - 400))
+        
+      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
+        
+        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
         
       end
+      
       
       if GetPhase() == 8 then --or GetPhase() == 10 then
         love.graphics.translate(math.random(10, 70), math.random(10, 100))
