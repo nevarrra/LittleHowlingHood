@@ -302,12 +302,8 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
         
       elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
         
-<<<<<<< HEAD
---        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
-=======
         love.graphics.translate(-(GetPlayer().position.x - 400), 0)
         
->>>>>>> 00926ff79ded918df63ed3939f8521be86d28620
       end
      
       
