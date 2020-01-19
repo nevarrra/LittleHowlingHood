@@ -14,7 +14,7 @@ require "traps"
   function LoadPlayer()
    imagecharacter2 = love.graphics.newImage("Images/char2.png")
    
-    player = {position = vector2.new (700, 300), 
+    player = {position = vector2.new (700, 100), 
               velocity = vector2.new (0, 0),
               size = vector2.new (100, 300),
               maxvelocity = 400,
@@ -48,6 +48,7 @@ require "traps"
   end
  
   function UpdatePlayer (dt, world, airenemies, lenemies, traps, mtraps, boss)
+    print (player.position.x)
     
     if player.health > 0 then
       local acceleration = vector2.new (0,0)
@@ -148,23 +149,15 @@ require "traps"
           
         end  
         
-        
+       
         
       end
       
       if love.keyboard.isDown ("space") and player.onGround then
         
-        player.velocity.y = -800
+        player.velocity.y = -950
         player.onGround = false
         movementdirection.y = 1
-        
-        
-      end
-      
-      if love.keyboard.isDown ("space") and player.wallclimbing then
-        
-        local move = vector2.new (0, -300)
-        acceleration = vector2.applyForce(move, player.mass, acceleration)
         
         
       end
@@ -215,8 +208,8 @@ require "traps"
       if love.keyboard.isDown ("m") then
         
         -- goal 2 and 3 and land enemy
-        player.position.x = 4000
-        player.position.y = -500
+        player.position.x = 6000
+        player.position.y = -800
         
       end
       
@@ -254,6 +247,13 @@ require "traps"
       player.velocity.x = vector2.limitaxis (player.velocity.x, player.maxvelocity)
       
       player.position = vector2.add (player.position, vector2.mult(player.velocity, dt))
+      
+    end
+    
+    
+    if player.position.x < 20 then
+      
+      player.velocity.x = 100
       
     end
     
@@ -311,25 +311,6 @@ require "traps"
           player.velocity.x = 0
           acceleration.x = 0
           
-          if love.keyboard.isDown ("space")  then
-              
-              local dash = vector2.new (2000 * (-player.direction.x), -25000)
-              
-              if player.direction.x == collisiondir.x then
-                
-                dash.x = 0
-                dash.y = 0
-                
-              end
-              
-              player.dashing = true
-              
-              
-              player.velocity = vector2.applyForce(dash, player.mass, player.velocity)
-              player.velocity.y = -1500
-              player.candash = false
-          end
-          
           if player.wallclimbing == true then
             
             player.velocity.y = 0
@@ -339,7 +320,7 @@ require "traps"
             
             
             
-            local move = vector2.new (0, -4000)
+            local move = vector2.new (0, -12500)
             acceleration = vector2.applyForce(move, player.mass, acceleration)
             
             
