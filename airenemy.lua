@@ -12,12 +12,12 @@ function CreateAirEnemy(x, y, airwidth, airheight)
     airenemyimg,
     state = REST,
     velocity = vector2.new(0, 70),
-    range = vector2.new(700, 700),
+    range = vector2.new(1200, 1200),
     width = airwidth,
     height = airheight,
     projectiles = {},
-    limit1 = vector2.new(x, y + 20),
-    limit2 = vector2.new(x, y - 20),
+    limit1 = vector2.new(x, y + 70),
+    limit2 = vector2.new(x, y - 70),
     shoottimer = 0,
     shootrate = 1
   }
@@ -42,6 +42,7 @@ function UpdateAirEnemy(dt, airenemies, player)
   for i = 1, #airenemies, 1 do
     local playerdirection = vector2.sub(player.position, airenemies[i].pos)
     local playerdistance = vector2.magnitude(playerdirection)
+   -- print(playerdistance)
     local aircollision = CheckRange(airenemies[i], player)
 
     if airenemies[i].pos.y >= airenemies[i].limit1.y or airenemies[i].pos.y <= airenemies[i].limit2.y then
@@ -50,20 +51,25 @@ function UpdateAirEnemy(dt, airenemies, player)
 
     airenemies[i].pos = vector2.add(airenemies[i].pos, vector2.mult(airenemies[i].velocity, dt))
 
-    if aircollision and player.health > 0 then
+    if playerdistance < 600 and player.health > 0 then
       AttackMode(airenemies, i, playerdirection, dt)
     else 
       airenemies[i].state = REST
     end
-
+ 
     UpdateProjectiles(dt, airenemies[i].projectiles, player)
   end
+ 
 end
 
 function CheckRange(airenemy, player)
   local visionPosition = vector2.sub(airenemy.pos, airenemy.range)
   local visionrange = vector2.new(visionPosition.x + airenemy.range.x + airenemy.width + airenemy.range.x, visionPosition.y + airenemy.range.y + airenemy.height + airenemy.range.y)
-  return IsCollidingSquares(visionPosition.x, visionPosition.y, player.position.x, player.position.y, visionrange.x, player.size.x, visionrange.y, player.size.y)
+  local IsColliding = IsCollidingSquares(visionPosition.x, visionPosition.y, player.position.x, player.position.y, visionrange.x, player.size.x, visionrange.y, player.size.y)
+--  print(visionPosition.y, "  ", player.position.y, "  ", visionrange.y, "  ", player.size.y)
+--  print(IsColliding)
+  return IsColliding
+  
 end
 
 function AttackMode(airenemies, i, playerdirection, dt)

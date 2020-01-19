@@ -102,7 +102,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     
     LoadWorld()
     
-    level1[1] = CreateObject(0, 900, 900, 50, 1)
+    level1[1] = CreateObject(0, 900, 90000, 50, 1)
     level1[2] = CreateObject(895, 900, 900, 50, 1)
     level1[3] = CreateObject(1790, 900, 900, 50, 1)
     
@@ -115,9 +115,9 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     mtraps[1] = CreateMovingTraps (2350, -1250, 100, 10)
     
     
-    lenemies[1] = CreateLEnemy(4250, -50, 256, 162)
+    lenemies[1] = CreateLEnemy(2500, 50, 200, 160)
     
-    airenemies[1] = CreateAirEnemy(800, 25, 40, 40)
+    airenemies[1] = CreateAirEnemy(800, 20, 40, 40)
     
     collectible[1] = CreateCollectible(2000, 250, 10, 1)
     collectible[2] = CreateCollectible(1650, -290, 10, 1)
@@ -248,6 +248,11 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       
       DrawBackground(GetPlayer())
       
+      DrawMovingTraps (mtraps)
+      
+      DrawWorld(level1)
+      
+      DrawTraps(traps)
       
       DrawCollectible(collectible)
       
@@ -262,11 +267,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       GetPlayerSize()
       GetPlayer()
       
-      DrawMovingTraps (mtraps)
-      
-      DrawWorld(level1)
-      
-      DrawTraps(traps)
+     
       
       
       

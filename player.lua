@@ -175,17 +175,9 @@ require "traps"
         
         player.isAttacking = true
         
-        PlayerAttack (lenemies, airenemies, boss)
+        PlayerAttack (lenemies, airenemies, boss, dt)
         
-        if player.isAttacking then
-          player.isAttackingTimer = player.isAttackingTimer + dt
-          
-          if player.isAttackingTimer > 0.5 then
-            player.isAttacking = false
-            player.isAttackingTimer = 0
-          
-          end
-        end
+        
       end
       
       
@@ -257,11 +249,22 @@ require "traps"
       
     end
     
+--    print(player.invulcooldown)
     
     if player.invulcooldown > 0 then
-      
       player.invulcooldown = player.invulcooldown - dt
       
+--      print(player.invulcooldown)
+      
+    end
+    if player.isAttacking then
+           player.isAttackingTimer = player.isAttackingTimer + dt
+          
+          if player.isAttackingTimer > 0.5 then
+            player.isAttacking = false
+            player.isAttackingTimer = 0
+          
+          end
     end
    
     if player.attackcooldown >= 0 and player.attackcooldown < 0.5 then
@@ -474,15 +477,20 @@ require "traps"
     
   end
   
-  function PlayerAttack (lenemies, airenemies, boss)
+  function PlayerAttack (lenemies, airenemies, boss, dt)
     
     for i = 1 , #lenemies, 1 do
       
-      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 150), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height)
+      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 250), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height)
       
       if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
         
         lenemies[i].health = lenemies[i].health - 1
+        local pushForce = vector2.new(player.direction.x*45000 , player.direction.y*7500)
+      
+        local enemyAcc = vector2.new(0, 0) 
+        enemyAcc = vector2.applyForce(pushForce, lenemies[i].mass, enemyAcc)
+        lenemies[i].velocity = vector2.add(lenemies[i].velocity, vector2.mult(enemyAcc, dt))
         
         if lenemies[i].health <= 0 then   
           table.remove (lenemies, i)

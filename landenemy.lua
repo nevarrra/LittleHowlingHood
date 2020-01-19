@@ -7,14 +7,15 @@ local REST, CHARGE = 1, 2
 
 function CreateLEnemy(x, y, lwidth, lheight)
   return {
+          landenemyimg,
           position = vector2.new(x, y),
           velocity = vector2.new(0, 0),
           width = lwidth,
           height = lheight,
           mass = 2,
-          maxvelocity = 700,
+          maxvelocity = 600,
           state = REST,
-          maxrange = 150,
+          maxrange = 700,
           hittimer = 0,
           hitrate = 3,
           resttimer = 0,
@@ -26,10 +27,11 @@ function CreateLEnemy(x, y, lwidth, lheight)
         
 end
 
-  function LoadLandEnemy()
-   landnemyimg = love.graphics.newImage("Images/boar.png")
-  end
+function LoadLandEnemy()
+  
+  landenemyimg = love.graphics.newImage("Images/boar.png")
 
+end
 
 function UpdateLEnemy(dt, lenemies, player, world)
   
@@ -45,14 +47,15 @@ function UpdateLEnemy(dt, lenemies, player, world)
   local futureposition = vector2.add(lenemies[i].position, vector2.mult(futurevelocity, dt))
   acceleration = CheckEnemyCollision(world, lenemies[i], futureposition, acceleration)
   
+ -- print("pl distance: ", playerdistance, "max range: ", lenemies[i].maxrange, "HIT TIMER: ", lenemies[i].hittimer, "pl health: ", player.health, "pl position: ", player.position.y, "enemy position: ", lenemies[i].position.y - 50)
   
-  if playerdistance < lenemies[i].maxrange and lenemies[i].hittimer > 3 and player.health > 0 and player.position.y > lenemies[i].position.y - 50 and player.position.y < lenemies[i].position.y then
+  if playerdistance < lenemies[i].maxrange and lenemies[i].hittimer > 3 and player.health > 0 and player.position.y > lenemies[i].position.y - 200 and player.position.y < lenemies[i].position.y then
     lenemies[i].state = CHARGE
-    
+   
    
   end
     
-  if lenemies[i].state == CHARGE and player.position.y > lenemies[i].position.y - 50 and player.position.y < lenemies[i].position.y then
+  if lenemies[i].state == CHARGE and player.position.y > lenemies[i].position.y - 200 and player.position.y < lenemies[i].position.y then
     
     local enemydirection =  vector2.normalize(vector2.sub(lenemies[i].position, player.position))
     local chargeforce = vector2.mult(playerdirection, 25)
@@ -62,6 +65,7 @@ function UpdateLEnemy(dt, lenemies, player, world)
     lenemies[i].velocity = vector2.add(lenemies[i].velocity, vector2.mult(acceleration, dt))
     lenemies[i].velocity = vector2.limit(lenemies[i].velocity, lenemies[i].maxvelocity) 
     local landcollisiondir = GetBoxCollisionDirection(lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height, player.position.x, player.position.y, player.size.x, player.size.y)
+    print("ATTACKING", player.isAttacking)
     if landcollisiondir.x ~= 0 and player.isAttacking == false then
     lenemies[i].hittimer = 0 
     local landHitForce = vector2.new(-enemydirection.x*60000 , enemydirection.y*3000)
@@ -79,11 +83,16 @@ function UpdateLEnemy(dt, lenemies, player, world)
           
         end
         
-        player.invulcooldown = 2
+        player.invulcooldown  = 2
+        
+     --   print(player.invulcooldown)
       end
       
       player.position = vector2.add(player.position, vector2.mult(player.velocity, dt))
        
+      lenemies[i].state = REST
+      
+    elseif landcollisiondir.x ~= 0 and player.isAttacking == true then
       lenemies[i].state = REST
           
        end
@@ -131,16 +140,14 @@ function CheckEnemyCollision(world, enemy, futureposition, acceleration)
  return acceleration
 end
 function DrawLEnemies(lenemies)
-  
+  love.graphics.setColor(1, 0.2, 1)
   
   for i = 1, #lenemies, 1 do
-    
-    love.graphics.setColor (1, 1, 1)
-    love.graphics.draw(landnemyimg, lenemies[i].position.x, lenemies[i].position.y, 0, 0.5)
-    love.graphics.setColor (0, 1, 0)
-    love.graphics.rectangle ("fill", lenemies[i].position.x, lenemies[i].position.y - 20, lenemies[i].health * 42, 10)
+    love.graphics.draw (landenemyimg, lenemies[i].position.x, lenemies[i].position.y)
+    love.graphics.rectangle ("fill", lenemies[i].position.x, lenemies[i].position.y - 20, lenemies[i].health * 25, 10)
     love.graphics.setColor (0.5, 0, 0.3)
-    love.graphics.rectangle ("line", lenemies[i].position.x, lenemies[i].position.y - 20, 128, 10)
+    love.graphics.rectangle ("line", lenemies[i].position.x, lenemies[i].position.y - 20, 75, 10)
     
   end
 end
+
