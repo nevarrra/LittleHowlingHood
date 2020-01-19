@@ -184,8 +184,8 @@ require "traps"
       if love.keyboard.isDown ("b") then
         
         -- boss area
-        player.position.x = 4700
-        player.position.y = -2600
+        player.position.x = 7000
+        player.position.y = 600
         
       end
       

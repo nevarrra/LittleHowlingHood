@@ -109,7 +109,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     level1[6] = CreateObject(3200, 600, 200, 50, 2)
     level1[7] = CreateObject(3700, 900, 900, 50, 1)
     level1[8] = CreateObject(3595, 900, 900, 50, 1)
-    level1[9] = CreateObject(4450, -200, 130, 3000, 3)
+    level1[9] = CreateObject(4450, -560, 130, 3000, 3)
     --path above
     
     level1[10] = CreateObject(5000, -200, 200, 50, 2)
@@ -134,7 +134,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     level1[29] = CreateObject(8000, 400, 200, 50, 2)
     level1[30] = CreateObject(7200, 400, 200, 50, 2)
     level1[31] = CreateObject(6800, 700, 200, 50, 2)
-    level1[32] = CreateObject(1000,700, 200, 50, 1)
+   -- level1[32] = CreateObject(1000,700, 200, 50, 1)
    
     
     --loads traps
@@ -156,7 +156,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     goal[2] = CreateGoal (2355, -1570, 10, 1)
     goal[3] = CreateGoal (6400, -2100, 10, 1)
     
-    boss = CreateBoss(5900, -2500, 190, 500)
+    boss = CreateBoss(8000, 200, 300, 600)
     
     boundary[1] = CreateBoundary(0, love.graphics.getHeight(), love.graphics.getWidth(), 5) -- FIX!!!!!
     boundary[2] = CreateBoundary(0, -love.graphics.getHeight()-500, love.graphics.getWidth(), 5)
@@ -267,15 +267,15 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
    
       if GetPlayer().position.x > 399 then
         
-        love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 400))
+        love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 600))
         
-      elseif GetPlayer().position.x < 399 then
+--      elseif GetPlayer().position.x < 399 then
         
-        love.graphics.translate(0, -(GetPlayer().position.y - 400))
+--        love.graphics.translate(0, -(GetPlayer().position.y - 400))
         
-      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
+--      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
         
-        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
+--        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
         
       end
       
