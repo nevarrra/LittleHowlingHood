@@ -25,6 +25,7 @@ function UpdateStomp(dt, boundary, bossstomp, player)
       playerAcceleration = vector2.applyForce(StompForce, player.mass, playerAcceleration)
       player.velocity = vector2.add(player.velocity, vector2.mult(playerAcceleration, dt))
       if player.invulcooldown <= 0 then
+        love.audio.play (hurtsfx)
         player.health = player.health - 4
         
         if player.health < 0 then

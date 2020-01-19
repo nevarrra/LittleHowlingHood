@@ -39,6 +39,7 @@ require "collision"
         end
         
         if collectible[i].remove == true then
+          love.audio.play(collectsfx)
           table.remove(collectible, i)
         end
       end
