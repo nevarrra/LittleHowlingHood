@@ -46,6 +46,7 @@ function CollisionWithPlayer(projectiles, i, player)
   projectiles[i].toremove = true
   if player.invulcooldown <= 0 then
     player.invulcooldown = 2
+    love.audio.play (hurtsfx)
     player.health = player.health - 3
     if player.health < 0 then
       player.health = 0

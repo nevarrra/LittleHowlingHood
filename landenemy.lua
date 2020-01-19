@@ -30,7 +30,8 @@ end
 function LoadLandEnemy()
   
   landenemyimg = love.graphics.newImage("Images/boar.png")
-
+  boarhurtsfx = love.audio.newSource ("SFX/boarhurt.wav", "static")
+  chargesfx = love.audio.newSource ("SFX/boarcharge.wav", "static")
 end
 
 function UpdateLEnemy(dt, lenemies, player, world, world2)
@@ -61,11 +62,11 @@ function UpdateLEnemy(dt, lenemies, player, world, world2)
     local chargeforce = vector2.mult(playerdirection, 25)
     chargeforce.y = 0
     enemydirection.y = -10
+    love.audio.play(chargesfx)
     acceleration = vector2.applyForce(chargeforce, lenemies[i].mass, acceleration)
     lenemies[i].velocity = vector2.add(lenemies[i].velocity, vector2.mult(acceleration, dt))
     lenemies[i].velocity = vector2.limit(lenemies[i].velocity, lenemies[i].maxvelocity) 
     local landcollisiondir = GetBoxCollisionDirection(lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height, player.position.x, player.position.y, player.size.x, player.size.y)
-    print("ATTACKING", player.isAttacking)
     if landcollisiondir.x ~= 0 and player.isAttacking == false then
     lenemies[i].hittimer = 0 
     local landHitForce = vector2.new(-enemydirection.x*60000 , enemydirection.y*3000)
@@ -75,6 +76,7 @@ function UpdateLEnemy(dt, lenemies, player, world, world2)
     player.velocity = vector2.add(player.velocity, vector2.mult(playerAcceleration, dt))
       
       if player.invulcooldown <= 0 then
+        love.audio.play (hurtsfx)
         player.health = player.health - 2
         
         if player.health < 0 then

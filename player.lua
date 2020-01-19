@@ -41,6 +41,8 @@ require "traps"
               animationTimer = 0,
               animationFrame = 1}
     
+    attacksfx = love.audio.newSource ("SFX/attack.wav", "static")
+    hurtsfx = love.audio.newSource ("SFX/hurt.wav", "static")
     for i = 1, 17, 1 do
       player.walkingRight[i] = love.graphics.newImage("Images/MovRight/" .. i .. ".png")
     end
@@ -167,7 +169,8 @@ require "traps"
       if love.keyboard.isDown ("rctrl") and player.attackcooldown >= 0.5 or love.keyboard.isDown ("lctrl") and player.attackcooldown >= 0.5  then
         
         player.isAttacking = true
-        
+        attacksfx:setVolume(1.5)
+        love.audio.play(attacksfx)
         PlayerAttack (lenemies, airenemies, boss, dt)
         
         
@@ -184,8 +187,8 @@ require "traps"
       if love.keyboard.isDown ("b") then
         
         -- boss area
-        player.position.x = 7000
-        player.position.y = 600
+        player.position.x = 4700
+        player.position.y = -2600
         
       end
       
@@ -447,7 +450,7 @@ require "traps"
        
        if player.health > 0 and player.invulcooldown <= 0 then
           
-          
+          love.audio.play (hurtsfx)
           player.health = player.health - 5
           player.invulcooldown = 2
           
@@ -470,7 +473,7 @@ require "traps"
        
         if player.health > 0 and player.invulcooldown <= 0 then
           
-          
+          love.audio.play (hurtsfx)
           player.health = player.health - 2
           player.invulcooldown = 2
           
@@ -551,7 +554,7 @@ require "traps"
         local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 250), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height)
         
         if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
-          
+          love.audio.play (boarhurtsfx)
           lenemies[i].health = lenemies[i].health - 1
           local pushForce = vector2.new(player.direction.x*45000 , player.direction.y*7500)
           
@@ -574,7 +577,7 @@ require "traps"
         
         
         if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5 then
-          
+          love.audio.play (owldeathsound)
           table.remove (airenemies, i)
           
         end

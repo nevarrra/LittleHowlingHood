@@ -13,7 +13,7 @@ function CreateBoss(x, y, bsizeX, bsizeY)
     position = vector2.new(x, y),
     health = 25,
     bprojectiles = {},
-    bossstomp = CreateStomp(7800, 50, 50, 300, vector2.new(0,0)),
+    bossstomp = CreateStomp(5700, -2700, 50, 300, vector2.new(0,0)),
     sizeX = bsizeX,
     sizeY = bsizeY,
     mass = 20,

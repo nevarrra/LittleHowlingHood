@@ -31,12 +31,15 @@ gamestate = "title"
 selectedbutton = 1
 
 local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
+local buttonchange = love.audio.newSource ("SFX/buttonchange.wav", "static")
+collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
 
   function love.keypressed (key)
     
     if gamestate == "title" then
       if key == "w" or key == "up" or key == "d" or key == "right" then 
         
+        love.audio.play (buttonchange)
         selectedbutton = selectedbutton - 1
         
         if selectedbutton == 0 then
@@ -48,6 +51,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       
       if key == "s" or key == "down" or key == "a" or key == "left" then 
         
+        love.audio.play (buttonchange)
         selectedbutton = selectedbutton + 1
         
         if selectedbutton == 4 then
@@ -61,6 +65,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     if gamestate == "pause" then
       if key == "w" or key == "up" then 
         
+        love.audio.play (buttonchange)
         selectedbutton = selectedbutton - 1
         
         if selectedbutton == 0 then
@@ -72,6 +77,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       
       if key == "s" or key == "down" then 
         
+        love.audio.play (buttonchange)
         selectedbutton = selectedbutton + 1
         
         if selectedbutton == 3 then
@@ -175,7 +181,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     goal[2] = CreateGoal (2355, -1570, 10, 1)
     goal[3] = CreateGoal (6400, -2100, 10, 1)
     
-    boss = CreateBoss(8000, 200, 300, 600)
+    boss = CreateBoss(5900, -2500, 190, 500)
     
     boundary[1] = CreateBoundary(0, love.graphics.getHeight(), love.graphics.getWidth(), 5) -- FIX!!!!!
     boundary[2] = CreateBoundary(0, -love.graphics.getHeight()-500, love.graphics.getWidth(), 5)
@@ -200,6 +206,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     elseif gamestate == "play" then
       
       gamemusic:setLooping(true)
+      gamemusic:setVolume (0.4)
       love.audio.play (gamemusic)
       
       UpdatePlayer(dt, level1, level2, airenemies, lenemies, traps, mtraps, boss) 
@@ -285,15 +292,15 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
    
       if GetPlayer().position.x > 399 then
         
-        love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 600))
+        love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 400))
         
---      elseif GetPlayer().position.x < 399 then
+      elseif GetPlayer().position.x < 399 then
         
---        love.graphics.translate(0, -(GetPlayer().position.y - 400))
+        love.graphics.translate(0, -(GetPlayer().position.y - 400))
         
---      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
+      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
         
---        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
+        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
         
       end
       

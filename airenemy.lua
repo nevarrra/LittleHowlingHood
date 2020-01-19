@@ -26,6 +26,9 @@ end
 
             
 function LoadAirEnemy()
+  
+  feathersfx  = love.audio.newSource ("SFX/feather.wav", "static")
+  owldeathsound = love.audio.newSource ("SFX/owldeath.wav", "static")
   airenemyimg = love.graphics.newImage("Images/owl.png")
   LoadProjectile()
   
@@ -78,6 +81,7 @@ function AttackMode(airenemies, i, playerdirection, dt)
     airenemies[i].shoottimer = airenemies[i].shoottimer + dt
     if airenemies[i].shoottimer > airenemies[i].shootrate then
       playerdirection = vector2.normalize(playerdirection)
+      love.audio.play (feathersfx)
       table.insert(airenemies[i].projectiles, CreateProjectile(airenemies[i].pos.x + (airenemies[i].width / 2), airenemies[i].pos.y + (airenemies[i].height / 2), 5, playerdirection)) 
       airenemies[i].shoottimer = 0
     end

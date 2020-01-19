@@ -45,6 +45,7 @@ function UpdateBProjectile(dt, bprojectiles, boundary, player)
     if collisiondirection.x ~= 0 or collisiondirection.y ~= 0 then
       bprojectiles[i].toremove = true
       
+      love.audio.play (hurtsfx)
       player.health = player.health - bprojectiles[i].ptype
     end
   end

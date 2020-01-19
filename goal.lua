@@ -35,6 +35,7 @@ require "collision"
         if pickup.x ~= 0 and player.health > 0  then
           
           player.goalcount = player.goalcount + 1
+          love.audio.play(collectsfx)
           table.remove(goal, i)
         end
       end
