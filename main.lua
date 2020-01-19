@@ -282,8 +282,10 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
  function DrawGame ()
    
    love.graphics.push()
-   
-      if GetPlayer().position.x > 399 then
+      if love.keyboard.isDown("space") or GetPlayer().onGround == false then
+        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
+         
+      elseif GetPlayer().position.x > 399 then
         
         love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 600))
         
@@ -294,9 +296,8 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
 --      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
         
 --        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
-        
       end
-      
+     
       
       if GetPhase() == 8 then --or GetPhase() == 10 then
         love.graphics.translate(math.random(10, 70), math.random(10, 100))
