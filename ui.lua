@@ -13,7 +13,8 @@
  
   function DrawUI()
     
-    love.graphics.setColor (1,1,1, 0.7)
+    
+    love.graphics.setColor (1,1,1)
     love.graphics.draw (HPicon, 10, 5,0, 0.20)
     love.graphics.setColor(0.3, 0, 0, 0.7)
     love.graphics.rectangle("fill", 160, 100, 200, 30)
@@ -21,6 +22,9 @@
     love.graphics.rectangle("fill", 160, 100, GetPlayer().health * 20, 30)
     love.graphics.setColor(0.631, 0.631, 0.631, 0.7)
     love.graphics.rectangle("line", 160, 100, 200, 30)
+    
+    
+    
     
     if GetPlayer().goalcount == 0 then
       
@@ -34,10 +38,14 @@
       love.graphics.setColor (1,1,1)
       love.graphics.draw (Colicon1, 30, 165,0, 0.25)
       
+      
+      
     elseif GetPlayer().goalcount == 2 then
       
       love.graphics.setColor (1,1,1)
       love.graphics.draw (Colicon2, 30, 165,0, 0.25)
+      
+      
       
     elseif GetPlayer().goalcount == 3 then
       

@@ -47,7 +47,7 @@ require "traps"
    
   end
  
-  function UpdatePlayer (dt, world, airenemies, lenemies, traps, mtraps, boss)
+  function UpdatePlayer (dt, world, world2, airenemies, lenemies, traps, mtraps, boss)
     print (player.position.x)
     
     if player.health > 0 then
@@ -226,7 +226,7 @@ require "traps"
       local futureposition = vector2.add (player.position, vector2.mult(futurevelocity, dt))
       
       acceleration = CheckCollision (world, futureposition, movementdirection, acceleration)
-      
+      acceleration = CheckCollision2 (world2, futureposition, movementdirection, acceleration)
       --update player velocity
       player.velocity = vector2.add (player.velocity, vector2.mult(acceleration,dt))
       
@@ -359,6 +359,84 @@ require "traps"
     
   end
   
+   function CheckCollision2(world2, futureposition, movementdirection, acceleration)
+    
+    local velocitydirection = vector2.normalize (player.velocity)
+    
+    
+    for i = 1, #world2, 1 do
+      --find what which direction the collision is on
+      local collisiondirection = GetBoxCollisionDirection(futureposition.x, futureposition.y, player.size.x, player.size.y, world2[i].position.x, world2[i].position.y,world2[i].size.x, world2[i].size.y)
+      local collisiondir = vector2.normalize(collisiondirection)
+      
+      -- if collisiondir.x and .y isnt 0 then
+      if not (collisiondir.x ~= 0 and collisiondir.y ~= 0 ) then
+        
+        if collisiondir.y ~= 0 and velocitydirection.y ~= collisiondir.y then
+          
+          player.velocity.y = 0
+          acceleration.y = 0
+          
+          if collisiondir.y == -1 then
+            
+            player.onGround = true
+            
+          end
+          
+          
+        end
+        
+        if collisiondir.x ~= 0 and velocitydirection.x ~= collisiondir.x then
+          
+         
+          player.velocity.x = 0
+          acceleration.x = 0
+          
+          if player.wallclimbing == true then
+            
+            player.velocity.y = 0
+            acceleration.y = 0
+            player.gravity.y = 0
+            player.candash = true
+            
+            
+            
+            local move = vector2.new (0, -12500)
+            acceleration = vector2.applyForce(move, player.mass, acceleration)
+            
+            
+            
+            
+            
+          end
+          
+        end
+        
+        if math.ceil (collisiondirection.x) ~= 0 then
+          
+          player.position.x = player.position.x + collisiondirection.x
+          
+        end
+        
+        if math.ceil (collisiondirection.y) ~= 0 then
+          
+          player.position.y = player.position.y + collisiondirection.y
+          
+        end
+        
+      end
+      
+      if player.velocity.y ~= 0 then
+        
+        player.onGround = false
+        
+      end
+      
+    end
+    return acceleration
+    
+  end
+  
  function CheckTrapCollision (traps, futureposition)
     
    for i = 1, #traps, 1 do
@@ -367,8 +445,12 @@ require "traps"
       
      if not (collisiondir.x == 0 and collisiondir.y == 0 ) then
        
-        if player.health > 0 then
-          player.health = 0
+       if player.health > 0 and player.invulcooldown <= 0 then
+          
+          
+          player.health = player.health - 5
+          player.invulcooldown = 2
+          
         end
       end
       
@@ -386,8 +468,12 @@ require "traps"
       
      if not (collisiondir.x == 0 and collisiondir.y == 0 ) then
        
-        if player.health > 0 then
-          player.health = 0
+        if player.health > 0 and player.invulcooldown <= 0 then
+          
+          
+          player.health = player.health - 2
+          player.invulcooldown = 2
+          
         end
       end
       
@@ -461,36 +547,38 @@ require "traps"
   function PlayerAttack (lenemies, airenemies, boss, dt)
     
     for i = 1 , #lenemies, 1 do
-      
-      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 250), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height)
-      
-      if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
+      if lenemies[i] then
+        local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 250), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, lenemies[i].position.x, lenemies[i].position.y, lenemies[i].width, lenemies[i].height)
         
-        lenemies[i].health = lenemies[i].health - 1
-        local pushForce = vector2.new(player.direction.x*45000 , player.direction.y*7500)
-      
-        local enemyAcc = vector2.new(0, 0) 
-        enemyAcc = vector2.applyForce(pushForce, lenemies[i].mass, enemyAcc)
-        lenemies[i].velocity = vector2.add(lenemies[i].velocity, vector2.mult(enemyAcc, dt))
-        
-        if lenemies[i].health <= 0 then   
-          table.remove (lenemies, i)
+        if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
+          
+          lenemies[i].health = lenemies[i].health - 1
+          local pushForce = vector2.new(player.direction.x*45000 , player.direction.y*7500)
+          
+          local enemyAcc = vector2.new(0, 0) 
+          enemyAcc = vector2.applyForce(pushForce, lenemies[i].mass, enemyAcc)
+          lenemies[i].velocity = vector2.add(lenemies[i].velocity, vector2.mult(enemyAcc, dt))
+          
+          if lenemies[i].health <= 0 then   
+            table.remove (lenemies, i)
+          end
+          
         end
-        
-      end
-      
+     end 
     end
     
     for i = 1 , #airenemies, 1 do
       
-      local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 150), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, airenemies[i].pos.x, airenemies[i].pos.y, airenemies[i].width, airenemies[i].height)
-      
-      if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5  then
+      if airenemies[i] then
+        local collisiondir = GetBoxCollisionDirection(player.position.x + (player.direction.x * 150), player.position.y + (player.direction.y * 150), player.size.x, player.size.y, airenemies[i].pos.x, airenemies[i].pos.y, airenemies[i].width, airenemies[i].height)
         
-        table.remove (airenemies, i)
         
+        if (collisiondir.x ~= 0 or collisiondir.y ~= 0) and player.attackcooldown >= 0.5 then
+          
+          table.remove (airenemies, i)
+          
+        end
       end
-      
     end
     
     if (boss.invulnerable <= 0) then

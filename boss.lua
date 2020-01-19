@@ -78,13 +78,13 @@ function UpdateBoss(dt, boundary, boss, player, level1)
      boss.invulnerable = boss.invulnerable - dt
   end
   
-  if player.position.x >= boss.position.x and boss.health > 0 then
-    local playerAccback = vector2.new(0, 0)
-    playerAccback = vector2.applyForce(boss.wind, player.mass, playerAccback)
-    player.velocity = vector2.add(player.velocity, vector2.mult(playerAccback, dt))
-    player.position = vector2.add(player.position, vector2.mult(player.velocity, dt))
-    boss.windblowtimer = boss.windblowtimer + dt
-  end
+--  if player.position.x >= boss.position.x and boss.health > 0 then
+--    local playerAccback = vector2.new(0, 0)
+--    playerAccback = vector2.applyForce(boss.wind, player.mass, playerAccback)
+--    player.velocity = vector2.add(player.velocity, vector2.mult(playerAccback, dt))
+--    player.position = vector2.add(player.position, vector2.mult(player.velocity, dt))
+--    boss.windblowtimer = boss.windblowtimer + dt
+--  end
     
 
   if phase == IDLE and boss.SawPlayer == true then

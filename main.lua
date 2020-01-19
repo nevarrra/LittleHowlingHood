@@ -14,9 +14,11 @@ require "mainmenu"
 require "pausemenu"
 require "credits"
 require "gameover"
+require "moon"
 
 
 local level1 = {}
+local level2 = {}
 local lenemies = {}
 local airenemies = {}
 local traps = {}
@@ -88,9 +90,6 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     
     Text = love.graphics.newFont(50)
     
-    background = love.graphics.newImage("Images/background.jpg")
-    
-    
     LoadPlayer() 
     
     LoadAirEnemy()
@@ -99,19 +98,19 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     
     LoadUI()
     
+    LoadMoon()
+    
     LoadWorld()
     
-    level1[1] = CreateObject(0, 900, 90000, 50, 1)
+    level1[1] = CreateObject(0, 900, 900, 50, 1)
     level1[2] = CreateObject(895, 900, 900, 50, 1)
     level1[3] = CreateObject(1790, 900, 900, 50, 1)
     level1[4] = CreateObject(2800, 600, 200, 50, 2)
     level1[5] = CreateObject(3000, 600, 200, 50, 2)
     level1[6] = CreateObject(3200, 600, 200, 50, 2)
     level1[7] = CreateObject(3700, 900, 900, 50, 1)
-    level1[8] = CreateObject(3595, 900, 900, 50, 1)
-    level1[9] = CreateObject(4450, -200, 130, 3000, 3)
-    --path above
-    
+    level1[8] = CreateObject(3695, 900, 900, 50, 1)
+    level1[9] = CreateObject(4450, -200, 130, 3000, 3)    
     level1[10] = CreateObject(5000, -200, 200, 50, 2)
     level1[11] = CreateObject(5200, -200, 200, 50, 2)
     level1[12] = CreateObject(5400, -200, 200, 50, 2)
@@ -134,23 +133,43 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     level1[29] = CreateObject(8000, 400, 200, 50, 2)
     level1[30] = CreateObject(7200, 400, 200, 50, 2)
     level1[31] = CreateObject(6800, 700, 200, 50, 2)
-    level1[32] = CreateObject(1000,700, 200, 50, 1)
-   
+    
+    level2[1] = CreateObject(6000, 700, 200, 50, 2)
+    level2[2] = CreateObject(4685, 900, 900, 50, 1)
+    level2[3] = CreateObject(8200, 900, 900, 50, 1)
+    level2[4] = CreateObject(9085, 900, 900, 50, 1)
+    level2[5] = CreateObject(9885, 900, 900, 50, 1)
+    level2[6] = CreateObject(10785, 900, 900, 50, 1)
+    level2[7] = CreateObject(11285, -300, 130, 3000, 3)
+    level2[8] = CreateObject(12000, -400, 200, 50, 2)
+    level2[9] = CreateObject(12200, -400, 200, 50, 2)
+    level2[10] = CreateObject(12800, -600, 200, 50, 2)
+    level2[11] = CreateObject(13600, -400, 200, 50, 2)
+    level2[12] = CreateObject(14000, 100, 200, 50, 2)
+    level2[13] = CreateObject(12800, 900, 900, 50, 1)
+    level2[14] = CreateObject(13680, 900, 900, 50, 1)
+    -- continue with boss level here 
+    
     
     --loads traps
     LoadTraps()
-    --traps[1] = CreateTraps (3190,800, (trapsimg:getWidth() / 2) - 15, (trapsimg:getHeight() / 2))
+    traps[1] = CreateTraps (5215,-300, 100, 100)
+    traps[2] = CreateTraps (7250,-600, 100, 100)
+    traps[3] = CreateTraps (9400,800, 100, 100)
     
-    --mtraps[1] = CreateMovingTraps (4000, 100, 100, 10)
-    --mtraps[2] = CreateMovingTraps (2350, -1250, 100, 10)
+    mtraps[1] = CreateMovingTraps (4430, 300, 100, 10, 2)
+    mtraps[2] = CreateMovingTraps (11250, 350, 100, 10, 2)
     
     
-    lenemies[1] = CreateLEnemy(2500, 50, 200, 160)
+    lenemies[1] = CreateLEnemy(10000, 250, 256, 162)
     
-    airenemies[1] = CreateAirEnemy(800, 20, 40, 40)
+    airenemies[1] = CreateAirEnemy(6600, -1000, 40, 40)
+    airenemies[2] = CreateAirEnemy(8400, -1000, 40, 40)
     
-    collectible[1] = CreateCollectible(2000, 250, 10, 1)
-    collectible[2] = CreateCollectible(1650, -290, 10, 1)
+    collectible[1] = CreateCollectible(10000, -600, 10, 1)
+    collectible[2] = CreateCollectible(13700, 800, 10, 1)
+    collectible[3] = CreateCollectible(400, 600, 10, 1)
+    
     
     goal[1] = CreateGoal (8950, -1000, 10, 1)
     goal[2] = CreateGoal (2355, -1570, 10, 1)
@@ -162,7 +181,6 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
     boundary[2] = CreateBoundary(0, -love.graphics.getHeight()-500, love.graphics.getWidth(), 5)
     boundary[3] = CreateBoundary(0, -love.graphics.getHeight(), 5, love.graphics.getHeight())
     boundary[4] = CreateBoundary(love.graphics.getWidth(), love.graphics.getHeight()-100, 5, love.graphics.getHeight())
-    
     
     
     
@@ -184,12 +202,12 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       gamemusic:setLooping(true)
       love.audio.play (gamemusic)
       
-      UpdatePlayer(dt, level1, airenemies, lenemies, traps, mtraps, boss) 
+      UpdatePlayer(dt, level1, level2, airenemies, lenemies, traps, mtraps, boss) 
       
       UpdateAirEnemy(dt, airenemies, GetPlayer())
       
       --GetAirLimit(airenemies, i)
-      UpdateLEnemy(dt, lenemies, GetPlayer(), level1)
+      UpdateLEnemy(dt, lenemies, GetPlayer(), level1, level2)
       
       
       UpdateCollectibles(collectible, GetPlayer())
@@ -286,11 +304,6 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       
       DrawBackground(GetPlayer())
       
-      DrawMovingTraps (mtraps)
-      
-      DrawWorld(level1)
-      
-      DrawTraps(traps)
       
       DrawCollectible(collectible)
       
@@ -298,14 +311,17 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       
       DrawAirEnemy(airenemies)
       
-      DrawLEnemies(lenemies)
-      
-      
-      
       GetPlayerSize()
       GetPlayer()
       
+      DrawMovingTraps (mtraps)
+      
      
+      DrawWorld(level1, level2)
+      
+      DrawLEnemies(lenemies)
+      
+      DrawTraps(traps)
       
       
       
@@ -317,6 +333,7 @@ local gamemusic = love.audio.newSource ("Music/game.wav", "stream")
       DrawPlayer()
       love.graphics.pop()
       
+      DrawMoon()
       DrawUI()
       
       

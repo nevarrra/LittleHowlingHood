@@ -12,19 +12,20 @@ require "vector2"
     trapsimg = love.graphics.newImage("Images/thorns.png")
     
     movetrapsimg = love.graphics.newImage("Images/branch.png")
+    movetrapsimg2 = love.graphics.newImage("Images/branch2.png")
     
   end
   
-  function CreateMovingTraps (x, y, w, h)
+  function CreateMovingTraps (x, y, w, h, d)
     
     return {position = vector2.new (x, y),
             size = vector2.new (w, h),
-            stoppedtime = 0,
+            direction = d,
             velocity = vector2.new (-50, 0),
             mass = 1,
             acceleration = vector2.new (0, 0),
-            limit1 = vector2.new(x - 150, y),
-            limit2 = vector2.new(x + 50, y),}
+            limit1 = vector2.new(x - 75, y),
+            limit2 = vector2.new(x + 75, y),}
     
   end
   
@@ -43,9 +44,17 @@ require "vector2"
     
     for i = 1, #mtraps, 1 do
       
-      love.graphics.setColor (1,1,1)
-      love.graphics.draw (movetrapsimg, mtraps[i].position.x, mtraps[i].position.y, 0, 0.5)
-      
+      if mtraps[i].direction == 1 then
+        
+        love.graphics.setColor (1,1,1)
+        love.graphics.draw (movetrapsimg, mtraps[i].position.x, mtraps[i].position.y, 0, 0.5)
+        
+      elseif mtraps[i].direction == 2 then
+        
+        love.graphics.setColor (1,1,1)
+        love.graphics.draw (movetrapsimg2, mtraps[i].position.x, mtraps[i].position.y, 0, 0.5)
+       
+      end
     end
     
   end

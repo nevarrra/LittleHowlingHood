@@ -38,9 +38,5 @@ require "collision"
           table.remove(goal, i)
         end
       end
-      --if goal[i].remove == true then
-      --  table.remove(goal, i)
-     -- end
-      
     end
   end
