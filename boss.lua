@@ -71,7 +71,7 @@ function UpdateBoss(dt, boundary, boss, player, level1)
   local shootdirection = ShootDirectionInitialize(boss)
   if player.position.x > (boss.position.x - boss.maxviewdistance.x) or player.position.x > (boss.position.x + boss.maxviewdistance.x) and boss.SawPlayer == false then
     boss.SawPlayer = true
-    level1[36] = CreateObject(4500, -2520, 15, 520)
+    --level1[36] = CreateObject(4500, -2520, 15, 520)
   end
   
   if boss.invulnerable > 0 then
@@ -191,26 +191,26 @@ function ShootDirectionInitialize(boss)
   table.insert(shootdirection, vector2.new(0, -2000))
   shootdirection[8] = vector2.sub(boss.position, shootdirection[8])
   
-  table.insert(shootdirection, vector2.new(0, 1800))
-  shootdirection[9] = vector2.sub(boss.position, shootdirection[9])
+--  table.insert(shootdirection, vector2.new(0, 1800))
+--  shootdirection[9] = vector2.sub(boss.position, shootdirection[9])
   
-  table.insert(shootdirection, vector2.new(0, -1900))
-  shootdirection[10] = vector2.sub(boss.position, shootdirection[10])
+--  table.insert(shootdirection, vector2.new(0, -1900))
+--  shootdirection[10] = vector2.sub(boss.position, shootdirection[10])
   
-  table.insert(shootdirection, vector2.new(0, -1700))
-  shootdirection[11] = vector2.sub(boss.position, shootdirection[11])
+--  table.insert(shootdirection, vector2.new(0, -1700))
+--  shootdirection[11] = vector2.sub(boss.position, shootdirection[11])
   
-  table.insert(shootdirection, vector2.new(0, 700))
-  shootdirection[12] = vector2.sub(shootdirection[12], boss.position)
+--  table.insert(shootdirection, vector2.new(0, 700))
+--  shootdirection[12] = vector2.sub(shootdirection[12], boss.position)
   
-  table.insert(shootdirection, vector2.new(0, -1200))
-  shootdirection[13] = vector2.sub(shootdirection[13], boss.position)
+--  table.insert(shootdirection, vector2.new(0, -1200))
+--  shootdirection[13] = vector2.sub(shootdirection[13], boss.position)
   
-  table.insert(shootdirection, vector2.new(0, -1550))
-  shootdirection[14] = vector2.sub(boss.position, shootdirection[14])
+--  table.insert(shootdirection, vector2.new(0, -1550))
+--  shootdirection[14] = vector2.sub(boss.position, shootdirection[14])
   
-  table.insert(shootdirection, vector2.new(0, -1000))
-  shootdirection[15] = vector2.sub(shootdirection[15], boss.position)
+--  table.insert(shootdirection, vector2.new(0, -1000))
+--  shootdirection[15] = vector2.sub(shootdirection[15], boss.position)
   
   shootdirection[1] = vector2.normalize(shootdirection[1])
   shootdirection[2] = vector2.normalize(shootdirection[2])
@@ -220,13 +220,13 @@ function ShootDirectionInitialize(boss)
   shootdirection[6] = vector2.normalize(shootdirection[6])
   shootdirection[7] = vector2.normalize(shootdirection[7])
   shootdirection[8] = vector2.normalize(shootdirection[8])
-  shootdirection[9] = vector2.normalize(shootdirection[9])
-  shootdirection[10] = vector2.normalize(shootdirection[10])
-  shootdirection[11] = vector2.normalize(shootdirection[11])
-  shootdirection[12] = vector2.normalize(shootdirection[12])
-  shootdirection[13] = vector2.normalize(shootdirection[13])
-  shootdirection[14] = vector2.normalize(shootdirection[14])
-  shootdirection[15] = vector2.normalize(shootdirection[15])
+--  shootdirection[9] = vector2.normalize(shootdirection[9])
+--  shootdirection[10] = vector2.normalize(shootdirection[10])
+--  shootdirection[11] = vector2.normalize(shootdirection[11])
+--  shootdirection[12] = vector2.normalize(shootdirection[12])
+--  shootdirection[13] = vector2.normalize(shootdirection[13])
+--  shootdirection[14] = vector2.normalize(shootdirection[14])
+--  shootdirection[15] = vector2.normalize(shootdirection[15])
   
   return shootdirection
 end
