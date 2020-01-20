@@ -1,7 +1,7 @@
  
  local menumusic = love.audio.newSource ("Music/menu.wav", "stream")
  local backgroundcredits = love.graphics.newImage ("Images/menu.jpg")
- local credits = love.graphics.newImage ("Images/creditsb.png")
+ local credits = love.graphics.newImage ("Images/credits.png")
  
  
   function UpdateCredits()

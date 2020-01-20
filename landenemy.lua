@@ -29,7 +29,7 @@ end
 
 function LoadLandEnemy()
   
-  landenemyimg = love.graphics.newImage("Images/boar.png")
+  landenemyimg = love.graphics.newImage("Images/BoarAnim/Left/Boar1.png")
   boarhurtsfx = love.audio.newSource ("SFX/boarhurt.wav", "static")
   chargesfx = love.audio.newSource ("SFX/boarcharge.wav", "static")
 end

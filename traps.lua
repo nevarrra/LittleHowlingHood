@@ -12,7 +12,7 @@ require "vector2"
     trapsimg = love.graphics.newImage("Images/thorns.png")
     
     movetrapsimg = love.graphics.newImage("Images/branch.png")
-    movetrapsimg2 = love.graphics.newImage("Images/branch.png")
+    movetrapsimg2 = love.graphics.newImage("Images/branch2.png")
     
   end
   

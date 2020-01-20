@@ -14,7 +14,7 @@ require "traps"
   function LoadPlayer()
    imagecharacter2 = love.graphics.newImage("Images/char2.png")
    
-    player = {position = vector2.new (700, -300), 
+    player = {position = vector2.new (700, 100), 
               velocity = vector2.new (0, 0),
               size = vector2.new (100, 300),
               maxvelocity = 400,
@@ -37,68 +37,20 @@ require "traps"
               goalcount = 0,
               isAttacking = false,
               isAttackingTimer = 0,
-              isAttackingAnim = false,
-              isJumping = false,
               walkingRight = {},
-              walkingLeft = {},
-              flipR = {},
-              flipL = {},
-              idleR = {},
-              idleL = {},
-              jumpR = {},
-              jumpL = {},
-              attackR = {},
-              attackL = {},
-              attackframe = 1,
-              attacktimer = 0,
               animationTimer = 0,
-              animationFrame = 1,
-              fliptimer = 0,
-              flipframe = 1,
-              idleframe = 1,
-              idletimer = love.timer.getTime(),
-              jumpframe = 1,
-              jumptimer = 0,
-              flipTriggeredR,
-              flipTriggeredL,
-              }
+              animationFrame = 1}
     
     attacksfx = love.audio.newSource ("SFX/attack.wav", "static")
     hurtsfx = love.audio.newSource ("SFX/hurt.wav", "static")
+    walksfx = love.audio.newSource ("SFX/walk.wav", "static")
     for i = 1, 17, 1 do
       player.walkingRight[i] = love.graphics.newImage("Images/MovRight/" .. i .. ".png")
     end
-    for i = 1, 18, 1 do
-      player.walkingLeft[i] = love.graphics.newImage("Images/MovLeft/" .. i .. ".png")
-    end
-    for i = 1, 3, 1 do 
-      player.flipR[i] = love.graphics.newImage("Images/Fliptoright/" .. i .. ".png")
-    end
-    for i = 1, 3, 1 do 
-      player.flipL[i] = love.graphics.newImage("Images/Fliptoleft/" .. i .. ".png")
-    end
-    for i = 1, 17, 1 do 
-      player.idleR[i] = love.graphics.newImage("Images/Idle/" .. i .. ".png")
-    end
-    for i = 1, 17, 1 do
-      player.idleL[i] = love.graphics.newImage("Images/IdleL/" .. i .. ".png")
-    end
-    for i = 1, 10, 1 do
-      player.jumpR[i] = love.graphics.newImage("Images/yumpRight/" .. i .. ".png")
-    end
-    for i = 1, 10, 1 do
-      player.jumpL[i] = love.graphics.newImage("Images/yumpLeft/" .. i .. ".png")
-    end
-    for i = 1, 14, 1 do
-      player.attackR[i] = love.graphics.newImage("Images/attackR/" .. i .. ".png")
-    end
-    for i = 1, 14, 1 do
-      player.attackL[i] = love.graphics.newImage("Images/attackL/" .. i .. ".png")
-    end
+   
   end
  
-  function UpdatePlayer (dt, world, world2, airenemies, lenemies, traps, mtraps, boss, world3)
- 
+  function UpdatePlayer (dt, world, world2, airenemies, lenemies, traps, mtraps, boss)
     
     if player.health > 0 then
       local acceleration = vector2.new (0,0)
@@ -150,10 +102,6 @@ require "traps"
         
         local move = vector2.new(750,0)
         acceleration = vector2.applyForce(move, player.mass, acceleration)
-        if player.direction.x == -1 then
-            player.flipTriggeredL = false
-            player.flipTriggeredR = true
-        end
         movementdirection.x = 1
         player.direction.x = 1
         player.direction.y = 0
@@ -161,6 +109,7 @@ require "traps"
         
         if player.animationTimer > 0.1 then
           player.animationFrame = player.animationFrame + 1
+          love.audio.play (walksfx)
           player.animationTimer =  0
           
           if player.animationFrame >= 17 then
@@ -189,24 +138,9 @@ require "traps"
         
         local move = vector2.new(-750,0)
         acceleration = vector2.applyForce(move, player.mass, acceleration)
-        if player.direction.x == 1 then
-            player.flipTriggeredR = false
-            player.flipTriggeredL = true
-        end
         movementdirection.x = -1
         player.direction.x = -1
         player.direction.y = 0
-        
-        player.animationTimer = player.animationTimer + dt
-        
-        if player.animationTimer > 0.1 then
-          player.animationFrame = player.animationFrame + 1
-          player.animationTimer =  0
-          
-          if player.animationFrame >= 18 then
-            player.animationFrame = 1
-          end
-        end
         
         if player.velocity.x < -250 then
           
@@ -227,39 +161,15 @@ require "traps"
         player.velocity.y = -950
         player.onGround = false
         movementdirection.y = 1
-        player.isJumping = true
+        
+        
       end
-        if player.isJumping then
-          player.jumptimer = player.jumptimer + dt
-          if player.jumptimer > 0.1 then
-             player.jumpframe = player.jumpframe + 1
-             player.jumptimer = 0
-          end
-        end
-        if player.jumpframe > 10 then
-               player.jumpframe = 1
-               player.isJumping = false
-        end
       
-      if player.isAttackingAnim == true then
-          player.attacktimer = player.attacktimer + dt
-          if player.attacktimer > 0.05 then
-              player.attackframe = player.attackframe + 1
-              player.attacktimer = 0
-          end
-          if player.attackframe > 14 then
-             player.isAttackingAnim = false
-            player.attackframe = 1
-          end
- 
-        end
       
       
       if love.keyboard.isDown ("rctrl") and player.attackcooldown >= 0.5 or love.keyboard.isDown ("lctrl") and player.attackcooldown >= 0.5  then
         
         player.isAttacking = true
-        player.isAttackingAnim = true
-        
         attacksfx:setVolume(1.5)
         love.audio.play(attacksfx)
         PlayerAttack (lenemies, airenemies, boss, dt)
@@ -278,8 +188,8 @@ require "traps"
       if love.keyboard.isDown ("b") then
         
         -- boss area
-        player.position.x = 13500
-        player.position.y = 100
+        player.position.x = 4700
+        player.position.y = -2600
         
       end
       
@@ -318,13 +228,9 @@ require "traps"
       
       --calculate the future position
       local futureposition = vector2.add (player.position, vector2.mult(futurevelocity, dt))
-      if gamestate ~= "boss" then
+      
       acceleration = CheckCollision (world, futureposition, movementdirection, acceleration)
       acceleration = CheckCollision2 (world2, futureposition, movementdirection, acceleration)
-      end
-      if gamestate == "boss" then
-        acceleration = CheckCollision3 (world3, futureposition, movementdirection, acceleration)
-      end
       --update player velocity
       player.velocity = vector2.add (player.velocity, vector2.mult(acceleration,dt))
       
@@ -358,7 +264,7 @@ require "traps"
     if player.isAttacking then
            player.isAttackingTimer = player.isAttackingTimer + dt
           
-          if player.isAttackingTimer > 0.05 then
+          if player.isAttackingTimer > 0.5 then
             player.isAttacking = false
             player.isAttackingTimer = 0
           
@@ -534,83 +440,6 @@ require "traps"
     return acceleration
     
   end
-  function CheckCollision3(world3, futureposition, movementdirection, acceleration)
-    
-    local velocitydirection = vector2.normalize (player.velocity)
-    
-    
-    for i = 1, #world3, 1 do
-      --find what which direction the collision is on
-      local collisiondirection = GetBoxCollisionDirection(futureposition.x, futureposition.y, player.size.x, player.size.y, world3[i].position.x, world3[i].position.y,world3[i].size.x, world3[i].size.y)
-      local collisiondir = vector2.normalize(collisiondirection)
-      
-      -- if collisiondir.x and .y isnt 0 then
-      if not (collisiondir.x ~= 0 and collisiondir.y ~= 0 ) then
-        
-        if collisiondir.y ~= 0 and velocitydirection.y ~= collisiondir.y then
-          
-          player.velocity.y = 0
-          acceleration.y = 0
-          
-          if collisiondir.y == -1 then
-            
-            player.onGround = true
-            
-          end
-          
-          
-        end
-        
-        if collisiondir.x ~= 0 and velocitydirection.x ~= collisiondir.x then
-          
-         
-          player.velocity.x = 0
-          acceleration.x = 0
-          
-          if player.wallclimbing == true then
-            
-            player.velocity.y = 0
-            acceleration.y = 0
-            player.gravity.y = 0
-            player.candash = true
-            
-            
-            
-            local move = vector2.new (0, -12500)
-            acceleration = vector2.applyForce(move, player.mass, acceleration)
-            
-            
-            
-            
-            
-          end
-          
-        end
-        
-        if math.ceil (collisiondirection.x) ~= 0 then
-          
-          player.position.x = player.position.x + collisiondirection.x
-          
-        end
-        
-        if math.ceil (collisiondirection.y) ~= 0 then
-          
-          player.position.y = player.position.y + collisiondirection.y
-          
-        end
-        
-      end
-      
-      if player.velocity.y ~= 0 then
-        
-        player.onGround = false
-        
-      end
-      
-    end
-    return acceleration
-    
-  end
   
  function CheckTrapCollision (traps, futureposition)
     
@@ -672,82 +501,26 @@ require "traps"
   
   function DrawPlayer ()
     
-    
     if player.health > 0 and  player.invulcooldown <= 0 then
       
       love.graphics.setColor(1, 1, 1)
-      if player.velocity.x == 0 and player.direction.x == 1 and player.onGround == true and player.isAttackingAnim == false then
-          love.graphics.draw(player.idleR[player.idleframe], player.position.x, player.position.y, 0, 0.5, 0.5)
-        if love.timer.getTime() - player.idletimer > 0.2 then
-          player.idleframe = player.idleframe + 1 
-          player.idletimer = love.timer.getTime()
-       if player.idleframe > 17 then
-         player.idleframe = 1
-        end
-       end
-      end
       
-      if player.velocity.x == 0 and player.direction.x == -1 and player.onGround == true and player.isAttackingAnim == false then
-          love.graphics.draw(player.idleL[player.idleframe], player.position.x + 10, player.position.y, 0, 0.5, 0.5)
-        if love.timer.getTime() - player.idletimer > 0.2 then
-          player.idleframe = player.idleframe + 1 
-          player.idletimer = love.timer.getTime()
-       if player.idleframe > 17 then
-         player.idleframe = 1
-       end
-       end
-      end
-      
-      if player.flipTriggeredR then
-        love.graphics.draw(player.flipR[player.flipframe], player.position.x + 35, player.position.y - 20, 0, 0.5, 0.5)
-        player.flipframe = player.flipframe + 1
-        if player.flipframe > 3 then
-          player.flipTriggeredR = false
-          player.flipframe = 1
-        end
-        
-      end
-      
-       if player.flipTriggeredL then
-        love.graphics.draw(player.flipL[player.flipframe], player.position.x - 5, player.position.y - 20, 0, 0.5, 0.5)
-        player.flipframe = player.flipframe + 1
-        if player.flipframe > 3 then
-          player.flipTriggeredL = false
-          player.flipframe = 1
-        end
-        
-      end
-      
-      if player.isAttackingAnim and player.direction.x == 1 then
-        love.graphics.draw(player.attackR[player.attackframe], player.position.x, player.position.y - 70, 0, 0.5, 0.5)
-          elseif player.isAttackingAnim and player.direction.x == -1 then
-            love.graphics.draw(player.attackL[player.attackframe], player.position.x, player.position.y - 70, 0, 0.5, 0.5)
-      end
-      
-    
-      if player.onGround == false and player.velocity.y ~= 0 and player.direction.x == 1 and player.isAttackingAnim == false then 
-        love.graphics.draw(player.jumpR[player.jumpframe], player.position.x, player.position.y+5, 0, 0.5, 0.5)
-      end
-      if player.onGround == false and player.velocity.y ~= 0 and player.direction.x == -1 and player.isAttackingAnim == false then
-        love.graphics.draw(player.jumpL[player.jumpframe], player.position.x, player.position.y+5, 0, 0.5, 0.5)
-      end
-      
-      if player.direction.x == 1 and player.velocity.x ~= 0 and player.onGround == true and player.isAttackingAnim == false then
+      if player.direction.x == 1 then
         
        love.graphics.draw(player.walkingRight[player.animationFrame], player.position.x, player.position.y, 0, 0.5, 0.5)
        
       end
       
-      if player.direction.x == -1 and player.velocity.x ~= 0 and player.onGround == true and player.isAttackingAnim == false then
+      if player.direction.x == -1 then
         
-       love.graphics.draw(player.walkingLeft[player.animationFrame], player.position.x, player.position.y, 0, 0.5, 0.5)
+       love.graphics.draw(imagecharacter2, player.position.x, player.position.y, 0, 0.5, 0.5)
        
       end
       
       
       
     end
-   
+    
     if player.health > 0 and  player.invulcooldown > 0 then
       
       if player.direction.x == 1 then
@@ -776,8 +549,6 @@ require "traps"
   end
   
   function PlayerAttack (lenemies, airenemies, boss, dt)
-    
-    
     
     for i = 1 , #lenemies, 1 do
       if lenemies[i] then
