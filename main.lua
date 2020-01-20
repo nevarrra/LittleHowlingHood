@@ -19,6 +19,7 @@ require "moon"
 
 local level1 = {}
 local level2 = {}
+local level3 = {}
 local lenemies = {}
 local airenemies = {}
 local traps = {}
@@ -111,50 +112,52 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
     level1[1] = CreateObject(0, 900, 900, 50, 1)
     level1[2] = CreateObject(895, 900, 900, 50, 1)
     level1[3] = CreateObject(1790, 900, 900, 50, 1)
-    level1[4] = CreateObject(2800, 600, 200, 50, 2)
-    level1[5] = CreateObject(3000, 600, 200, 50, 2)
-    level1[6] = CreateObject(3200, 600, 200, 50, 2)
+    level1[4] = CreateObject(2800, 600, 200, 70, 2)
+    level1[5] = CreateObject(3000, 600, 200, 70, 2)
+    level1[6] = CreateObject(3200, 600, 200, 70, 2)
     level1[7] = CreateObject(3700, 900, 900, 50, 1)
     level1[8] = CreateObject(3695, 900, 900, 50, 1)
     level1[9] = CreateObject(4450, -200, 130, 3000, 3)    
-    level1[10] = CreateObject(5000, -200, 200, 50, 2)
-    level1[11] = CreateObject(5200, -200, 200, 50, 2)
-    level1[12] = CreateObject(5400, -200, 200, 50, 2)
-    level1[13] = CreateObject(6000, -500, 200, 50, 2)
-    level1[14] = CreateObject(6200, -500, 200, 50, 2)
-    level1[15] = CreateObject(7000, -500, 200, 50, 2)
-    level1[16] = CreateObject(7200, -500, 200, 50, 2)
-    level1[17] = CreateObject(7400, -500, 200, 50, 2)
-    level1[18] = CreateObject(7600, -500, 200, 50, 2)
-    level1[19] = CreateObject(8000, -800, 200, 50, 2)
-    level1[20] = CreateObject(8600, -800, 200, 50, 2)
-    level1[21] = CreateObject(8800, -800, 200, 50, 2)
-    level1[22] = CreateObject(9000, -800, 200, 50, 2)
-    level1[23] = CreateObject(9200, -800, 200, 50, 2)
-    level1[24] = CreateObject(9800, -400, 200, 50, 2)
-    level1[25] = CreateObject(10000, -400, 200, 50, 2)
-    level1[26] = CreateObject(9400, -100, 200, 50, 2)
-    level1[27] = CreateObject(9000, 100, 200, 50, 2)
-    level1[28] = CreateObject(8600, 400, 200, 50, 2)
-    level1[29] = CreateObject(8000, 400, 200, 50, 2)
-    level1[30] = CreateObject(7200, 400, 200, 50, 2)
-    level1[31] = CreateObject(6800, 700, 200, 50, 2)
+    level1[10] = CreateObject(5000, -200, 200, 70, 2)
+    level1[11] = CreateObject(5200, -200, 200, 70, 2)
+    level1[12] = CreateObject(5400, -200, 200, 70, 2)
+    level1[13] = CreateObject(6000, -500, 200, 70, 2)
+    level1[14] = CreateObject(6200, -500, 200, 70, 2)
+    level1[15] = CreateObject(7000, -500, 200, 70, 2)
+    level1[16] = CreateObject(7200, -500, 200, 70, 2)
+    level1[17] = CreateObject(7400, -500, 200, 70, 2)
+    level1[18] = CreateObject(7600, -500, 200, 70, 2)
+    level1[19] = CreateObject(8000, -800, 200, 70, 2)
+    level1[20] = CreateObject(8600, -800, 200, 70, 2)
+    level1[21] = CreateObject(8800, -800, 200, 70, 2)
+    level1[22] = CreateObject(9000, -800, 200, 70, 2)
+    level1[23] = CreateObject(9200, -800, 200, 70, 2)
+    level1[24] = CreateObject(9800, -400, 200, 70, 2)
+    level1[25] = CreateObject(10000, -400, 200, 70, 2)
+    level1[26] = CreateObject(9400, -100, 200, 70, 2)
+    level1[27] = CreateObject(9000, 100, 200, 70, 2)
+    level1[28] = CreateObject(8600, 400, 200, 70, 2)
+    level1[29] = CreateObject(8000, 400, 200, 70, 2)
+    level1[30] = CreateObject(7200, 400, 200, 70, 2)
+    level1[31] = CreateObject(6800, 700, 200, 70, 2)
     
-    level2[1] = CreateObject(6000, 700, 200, 50, 2)
+    level2[1] = CreateObject(6000, 700, 200, 70, 2)
     level2[2] = CreateObject(4685, 900, 900, 50, 1)
     level2[3] = CreateObject(8200, 900, 900, 50, 1)
     level2[4] = CreateObject(9085, 900, 900, 50, 1)
     level2[5] = CreateObject(9885, 900, 900, 50, 1)
     level2[6] = CreateObject(10785, 900, 900, 50, 1)
     level2[7] = CreateObject(11285, -300, 130, 3000, 3)
-    level2[8] = CreateObject(12000, -400, 200, 50, 2)
-    level2[9] = CreateObject(12200, -400, 200, 50, 2)
-    level2[10] = CreateObject(12800, -600, 200, 50, 2)
-    level2[11] = CreateObject(13600, -400, 200, 50, 2)
-    level2[12] = CreateObject(14000, 100, 200, 50, 2)
+    level2[8] = CreateObject(12000, -400, 200, 70, 2)
+    level2[9] = CreateObject(12200, -400, 200, 70, 2)
+    level2[10] = CreateObject(12800, -600, 200, 70, 2)
+    level2[11] = CreateObject(13600, -400, 200, 70, 2)
+    level2[12] = CreateObject(14000, 100, 200, 70, 2)
     level2[13] = CreateObject(12800, 900, 900, 50, 1)
     level2[14] = CreateObject(13680, 900, 900, 50, 1)
     -- continue with boss level here 
+    level2[15] = CreateObject(15000, 900, 100, 50, 1)
+
     
     
     --loads traps
@@ -181,18 +184,37 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
     goal[2] = CreateGoal (2355, -1570, 10, 1)
     goal[3] = CreateGoal (6400, -2100, 10, 1)
     
-    boss = CreateBoss(5900, -2500, 190, 500)
+    boss = CreateBoss(1500, 300, 300, 700)
     
-    boundary[1] = CreateBoundary(0, love.graphics.getHeight(), love.graphics.getWidth(), 5) -- FIX!!!!!
+    boundary[1] = CreateBoundary(0, love.graphics.getHeight(), love.graphics.getWidth(), 5) 
     boundary[2] = CreateBoundary(0, -love.graphics.getHeight()-500, love.graphics.getWidth(), 5)
     boundary[3] = CreateBoundary(0, -love.graphics.getHeight(), 5, love.graphics.getHeight())
     boundary[4] = CreateBoundary(love.graphics.getWidth(), love.graphics.getHeight()-100, 5, love.graphics.getHeight())
+    
+       LoadBossLvl()
+      level3[1] = CreateObject(180, 980, 1200, 70)
+      
+      LoadBoss(boss)
+      
     
     
     
   end
   
   function love.update(dt)
+    
+    if GetPlayer().position.x > 13500 then
+      gamestate = "boss"
+      GetPlayer().position.x = 300
+      GetPlayer().position.y = 500
+    end
+    
+    if gamestate == "boss" then
+      UpdatePlayer(dt, level1, level2, airenemies, lenemies, traps, mtraps, boss, level3)
+       if boss.health > 0 then
+        UpdateBoss(dt, boundary, boss, GetPlayer(), level1)
+      end
+    end
     
     if gamestate == "title" then
       
@@ -239,9 +261,7 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
         
       end
       
-      if boss.health > 0 then
-        UpdateBoss(dt, boundary, boss, GetPlayer(), level1)
-      end
+     
       
       
     elseif gamestate == "pause" then
@@ -256,6 +276,7 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
     end
    
   end
+
   
   
   function love.draw()
@@ -282,6 +303,17 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
     elseif gamestate == "gameover" then
       
       DrawGameOver()
+    elseif gamestate == "boss" then
+      DrawBossLvl(level3)
+      DrawPlayer()
+       if GetPhase() == 8 then --or GetPhase() == 10 then
+        love.graphics.translate(math.random(10, 70), math.random(10, 100))
+      end 
+      if boss.health > 0 then
+        DrawBoss(boss)
+      end
+      DrawUI()
+      
       
     end 
   end
@@ -289,27 +321,26 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
  function DrawGame ()
    
    love.graphics.push()
-      if love.keyboard.isDown("space") or GetPlayer().onGround == false then
-        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
+--      if love.keyboard.isDown("space") or GetPlayer().onGround == false then
+--        love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 400))
+        
          
-      elseif GetPlayer().position.x > 399 then
+       if GetPlayer().position.x > 399 then
         
         love.graphics.translate(-(GetPlayer().position.x - 400), -(GetPlayer().position.y - 400))
         
-      elseif GetPlayer().position.x < 399 then
+--      elseif GetPlayer().position.x < 399 then
         
-        love.graphics.translate(0, -(GetPlayer().position.y - 400))
+--        love.graphics.translate(0, -(GetPlayer().position.y - 400))
         
-      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
+--      elseif GetPlayer().position.x > 399 and GetPlayer().position.y > -750 then
         
-        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
+--        love.graphics.translate(-(GetPlayer().position.x - 400), 0)
         
       end
      
-      
-      if GetPhase() == 8 then --or GetPhase() == 10 then
-        love.graphics.translate(math.random(10, 70), math.random(10, 100))
-      end 
+            
+     
       
       DrawBackground(GetPlayer())
       
@@ -334,12 +365,12 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
       
       
       
-      if boss.health > 0 then
-        DrawBoss(boss)
-      end
+      
       
       
       DrawPlayer()
+      love.graphics.setColor(1, 1, 1)
+      love.graphics.draw(entrance, 15000, 200, 0, 0.7, 0.7)
       love.graphics.pop()
       
       DrawMoon()
@@ -354,6 +385,7 @@ collectsfx = love.audio.newSource ("SFX/collect.wav", "static")
         love.graphics.print ("You Win", love.graphics.getWidth()/2 - 250, love.graphics.getHeight()/2)
         
       end
+   
       
   end
   
